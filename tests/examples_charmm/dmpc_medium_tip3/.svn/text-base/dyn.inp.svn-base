@@ -1,0 +1,103 @@
+set seed 62500
+
+set a top_all36_lipid.rtf
+set b par_all36_lipid.prm
+
+! read the topology
+open unit 9 read form name @a
+read rtf card unit 9
+close unit 9
+
+! read the parameters
+open unit 9 read form name @b
+read para card unit 9
+close unit 9
+
+read sequence  dmpc 288
+gener MEMB first none last none  angle dihedral setup warn
+
+read sequence tip3 9999
+gener WAT1 first none last none noangle nodihedral setup warn
+
+read sequence tip3 1501
+gener WAT2 first none last none noangle nodihedral setup warn
+
+open unit 1 read form name dmpc_large_tip3_750min.pdb
+read coor pdb resid unit 1
+close unit 1
+
+IOFOrmat EXTEned
+
+!open unit 1 write form name dmpc_large_tip3_750min.crd
+!write coor card unit 1
+!close unit 1
+
+!open unit 1 write card name dmpc_large_tip3_750min.psf
+!write psf card unit 1
+!close unit 1
+
+coor copy comp
+
+shake bonh param tol 1.0e-12 mxit 20000
+
+set boxsizeX 93.6
+set boxsizeY 93.6
+set boxsizeZ 76.0
+
+!===============================  IMAGE (BEGIN)  ==============================
+CRYSTAL DEFINE Tetragonal @boxsizeX @boxsizeY @boxsizeZ 90.00 90.00 90.00
+CRYSTAL BUILD NOPER 0 CUTOFF 20.0
+open read card unit 10 name "cubic.xtl"
+crystal read card unit 10
+close unit 10
+IMAGE BYRESID XCEN 0.0 YCEN 0.0 ZCEN 0.0 sele all end
+!================================  IMAGE (END)  ===============================
+
+energy -
+atom vatom  switch vdistance cdie eps 1.0 vswi e14fac 1.0 nbscale 1.0  -
+inbfrq -1  imgfrq -1  -
+cutnb 9.5 cutim 9.5 ctonnb 7.0 ctofnb 8.0 nbxmod 5   -
+ELEC EWALD KAPPa 0.320  PMEWALD fftx 64 ffty 64 fftz 64
+
+!open unit 1 write form name dmpc_large_tip3_750min.crd
+!write coor card unit 1
+!close unit 1
+
+!open unit 1 write form name dmpc_large_tip3_750min.pdb
+!write coor pdb unit 1
+!close unit 1
+
+!open unit 1 write card name dmpc_large_tip3_750min.psf
+!write psf card unit 1
+!close unit 1
+
+stop
+
+open write card unit 51 name dmpc_large_@count.rst
+open write file unit 52 name dmpc_large_@count.trj
+
+DYNAMICS CPT LEAP -
+ start nstep  1000000  timestp 0.001  -
+ inbfrq  -1  imgfrq    -1  ihbfrq      0  ilbfrq     0 -
+ PCONS   Pmzz 2025.0 Pmxx 1725.0 Pmyy 1725.0  Pgamma   5.0 -
+ HOOVER  Reft 303.0  Tmass 3000.0  Tbath   303.0  FirstT 303.0 FinalT 303.0 tstruct 303.0 iseed @seed  -
+ iasors 1 iasvel 1 iscvel 0 isvfrq 1000 -
+ iunread -1  iunwrite 51  iuncrd 52  iunvelo   -1 - 
+ nsavcrd 1000  nsavvelo   0 e14fac 1.0 nbxmod -5 echeck 10000000000  -
+ nprint 100  iprfrq  1000   ntrfrq 2000 
+
+scalar charge store 1
+scalar wmain recall 1
+
+open unit 1 write form name dmpc_large_@count.pdb
+write coor pdb unit 1
+close unit 1
+
+open unit 1 write form name dmpc_large_@count.crd
+write coor card unit 1
+close unit 1
+
+close unit 51
+close unit 52
+
+stop

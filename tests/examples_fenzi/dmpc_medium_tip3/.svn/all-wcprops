@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/6/trunk/tests/examples_fenzi/dmpc_medium_tip3
+END
+fenzi.in
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/6/trunk/tests/examples_fenzi/dmpc_medium_tip3/fenzi.in
+END
+par_all36_lipid.prm
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/6/trunk/tests/examples_fenzi/dmpc_medium_tip3/par_all36_lipid.prm
+END
+dmpc_medium_tip3_750min.crd
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/6/trunk/tests/examples_fenzi/dmpc_medium_tip3/dmpc_medium_tip3_750min.crd
+END
+dmpc_medium_tip3_750min.psf
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/6/trunk/tests/examples_fenzi/dmpc_medium_tip3/dmpc_medium_tip3_750min.psf
+END
+top_all36_lipid.rtf
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/6/trunk/tests/examples_fenzi/dmpc_medium_tip3/top_all36_lipid.rtf
+END

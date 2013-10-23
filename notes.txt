@@ -1,0 +1,92 @@
++--------------------------------------------------------------------+
+|                                                                    |
+|                     FENZI 10.24 Release Notes                       |
+|                                                                    |
++--------------------------------------------------------------------+
+
+FEN ZI Workflow
+
+fenzi.cu
+
+- initialize environemnt based on .in file
+
+- computer forces and energies at stpe 0 
+
+- run minimzation if requested in .in file
+
+- run MD steps if requested in .in file
+
+----------------------------------------------------------------------
+
+fenzi.cu
+
+1.1 ...initialize environemnt // fenzi.cu
+
+1.1 ...check command line
+      ...currently: -d <device> -f <dfile.in> 
+
+1.2 ...parse input file .in, set up output files
+
+1.3 ...restart from checkpointfile
+
+1.4 ...read psf and prm file
+
+1.5 ...if PME, generate the lattice	for charges
+
+1.6 ...generate the list of atoms for nonbonded force calculations
+
+1.7 ...compute forces on atoms - step 0
+
+1.8 ...minimize structure
+
+1.9 ...continue dynamics
+    // shake + constant pressure and constat temperature with extended Hamiltonian
+    SingleStep_npt();
+    // constat temparature with velocity scaling [and shake]; constant energy [and shake];
+    SingleStep();
+
+----------------------------------------------------------------------
+
+fenzi.c calls  SingleStep() in dynamics.cu
+
+1.1 HalfKick the velocities in mdcuda.cu
+
+1.2 UpdateCoords
+
+1.3 Save previous scaled positions by calling CoordsUpdate()
+
+1.4 Update nonbond list
+
+1.5 Update lattice
+
+1.6 Compute forces
+    ComputeAccelGPU() in mdcuda.c
+
+1.7 Reduce virial
+
+1.8 HalfKick the velocities in 
+
+1.9 Do RATTLE
+
+----------------------------------------------------------------------
+
+ComputeAccelGPU() in mdcuda.c
+
+1.1 bondedforce() OR bondedforce_c36() in nonbond_forces.cu // based on the forcefild
+
+1.2 nonbondforce() in bonded_forces.cu
+
+1.3 ChargeSpread_small OR ChargeSpread_large // based on size of the system for performance
+
+1.4 cufftExecC2C
+
+1.5 BCMultiply
+
+1.6 cufftExecC2C
+
+1.7 PMEForce_medium OR PMEForce_large
+
+1.8 if (restraints){
+        reduce_COM
+	restraint_force
+	}

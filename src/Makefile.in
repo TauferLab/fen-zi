@@ -1,0 +1,36 @@
+CC=@CC@
+CXX=@CXX@
+NVCC=@NVCC@
+MAKE=@MAKE@
+INC=@INCLUDES@
+
+DEFS=@DEFINITIONS@
+CFLAGS=@COMPILER_FLAGS@
+
+SRCDIR="@SOURCE_DIR@"
+BINDIR="@BINARY_DIR@"
+CWD=$(shell pwd)
+
+VERSION=@FENZI_VERSION_MAJOR@_@FENZI_VERSION_MINOR@
+ARCH=@CUDA_ARCHITECTURE@
+
+TARGET=@TARGET@
+
+all: fenzi
+
+fenzi: ${TARGET}
+	ln -s ${TARGET} ${BINDIR}/fenzi
+
+${TARGET}: *.c *.h *.cu
+	${NVCC} ${CFLAGS} ${DEFS} ${INC} -use_fast_math --ptxas-options="-v -O3" \
+	        -arch ${ARCH} -lcufft -o ${TARGET} io/*.c fenzi.cu
+
+clean:
+	rm -f *~ ${TARGET} ${BINDIR}/trj2xyz virial* *.out
+
+include @BINARY_DIR@/Makefile.install
+
+# depracated
+# trj2xyz: trj2xyz.c
+	# ${CC} -o ${BINDIR}/trj2xyz.exe trj2xyz.c
+

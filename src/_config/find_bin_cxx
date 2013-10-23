@@ -1,0 +1,20 @@
+#! /bin/bash
+
+if [ -z "$CXX" ]; then
+    local test_names="c++ cxx g++"
+
+    local b=
+    for b in $test_names; do
+        which $b &> /dev/null
+        local tmp=$?
+
+        if [ "$tmp" -eq "0" ]; then
+            ret="$(which $b)"
+            break
+        fi
+    done
+
+else
+    ret="$CCX"
+fi
+
