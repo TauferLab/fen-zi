@@ -4,6 +4,72 @@
 |                                                                    |
 +--------------------------------------------------------------------+
 
+This file contains the following sections:
+
+  - Problems? Found a bug?
+  - Running FENZI
+  - Compiling FENZI
+  - Memory Usage
+
+----------------------------------------------------------------------
+
+FEN ZI in a nutshell:
+
+Switching between cuda 4.0 and cuda 4.1 on cochise:
+
+cd /usr/local/
+
+change link for cuda
+
+#####
+
+Running FENZI
+
+large2
+
+  328  ./install.com --consfix --cudarch=sm_20 --tssize=CUSTOM --cblock=318 --catoms=318 --maxdtype=64 --maxatype=32 --maxbtype=32 --maxnb=1160
+  340  ./install.com --consfix --cudarch=sm_20 --tssize=CUSTOM --cblock=1024 --catoms=1024 --maxdtype=64 --maxatype=32 --maxbtype=32 --maxnb=1160
+  347  ./install.com --consfix --cudarch=sm_20 --tssize=CUSTOM --cblock=564 --catoms=564 --maxdtype=64 --maxatype=32 --maxbtype=32 --maxnb=1160
+
+./install.com --consfix --cudarch=sm_20 --tssize=CUSTOM --cblock=564 --catoms=564 --maxdtype=64 --maxatype=32 --maxbtype=32 --maxnb=1160
+
+./install.com --consfix --cudarch=sm_20 --tssize=CUSTOM --cblock=318 --catoms=318 --maxdtype=64 --maxatype=32 --maxbtype=32 --maxnb=1160
+
+For two_tubes  with cutoff 10, 12, 13
+
+./install.com --consfix --cudarch=sm_20 --tssize=CUSTOM --cblock=318 --catoms=318 --maxdtype=64 --maxatype=64 --maxbtype=64 --maxnb=1160
+
+For two_tubes  with cutoff 7, 8, 9.5
+
+./install.com --consfix --cudarch=sm_20
+
+For dmpc_small with 7, 8, 9.5
+
+./install.com --cudarch=sm_20 --tssize=small
+
+For dmpc_medium and dmpc_medum_tip3 with 7, 8, 9.5
+
+./install.com --cudarch=sm_20 --tssize=medium
+
+For dmpc_large with 7, 8, 9.5
+
+./install.com --cudarch=sm_20 --tssize=large
+
+SDS - FFT 128 x128 x128
+
+ ./install.com --cudarch=sm_20 --tssize=CUSTOM --cblock=512 --catoms=512 --maxdtype=32 --maxatype=32 --maxbtype=32 --maxnb=2048
+
+large2 
+
+0??:  ./install.com --cudarch=sm_13 --tssize=CUSTOM --cblock=377 --catoms=377 --maxdtype=32 --maxatype=32 --maxbtype=32 --maxnb=1424
+     ./install.com --cudarch=sm_20 --tssize=CUSTOM --cblock=377 --catoms=377 --maxdtype=32 --maxatype=32 --maxbtype=32 --maxnb=1424
+
+More stable ?
+
+    ./install.com --cudarch=sm_13 --tssize=CUSTOM --cblock=512 --catoms=512 --maxdtype=32 --maxatype=32 --maxbtype=32 --maxnb=2048
+
+----------------------------------------------------------------------
+
 FEN ZI Workflow
 
 fenzi.cu

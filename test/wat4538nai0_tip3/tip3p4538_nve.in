@@ -1,0 +1,66 @@
+# blank lines and lines starting with '#' are comments...
+# the list of parameters is unordered and the descriptors are case insensitive
+
+# descriptor			Value
+
+coordinates 	water_eqbox.crd
+structure	water_eqbox_autopsf.psf
+
+parameters	par_all27_prot_na+all36_lipid-nocmap.prm
+
+temperature 	298
+thermostat	5.0
+tempresetTiming		10000000
+
+#timestep is defined in pico seconds   
+
+timestep 0.001
+
+startstep	0
+dynasteps	1000000
+outputTiming	100
+checkpointTiming 100000000
+
+cuton		7
+cutoff          8
+pairlistdist    9.5
+gpublocksize	128
+
+#dimensions of the cell, currently only rectangular cells are supported..
+
+CellBasisVector1        52.0	0     	0
+cellBasisVector2        0       52.0 	0
+cellBasisVector3        0       0       52.0
+
+# full electrostatics
+PMEGridSizeX    64
+PMEGridSizeY    64
+PMEGridSizeZ    64
+
+#Andersen piston mass for constant pressure simulations.. 
+pmass	1.0e-5
+
+#external reference pressure in atomspheres
+pref	1.0
+
+#constrain hydrogen bonds(on|off) *and* tolerance(1e-6)
+shake on 1e-10
+
+#printlevel 0 - no printing, 1 - output only energy, 2 - output energy and trajectory
+
+printlevel 	1
+
+#output energies to file (1) or stdout (0)
+printtostdout	0	
+
+#keep checkpoints in folder(1) or remove previous checkpoints(0)
+keepcheckpoints	1	
+
+#checkpoint format binary(b) or ascii(a)
+checkpointformat	Ascii
+
+seed         2345
+
+#trajectory output
+outputtrajectory tip3_4538.trj
+

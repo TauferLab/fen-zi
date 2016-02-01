@@ -2,6 +2,7 @@
 // vim:sts=2:sw=2:ts=2:noet:sr:cino=>s,f0,{0,g0,(0,\:0,t0,+0,=s
 #define DEBUG_PREFIX C:\\UserData\\Narayan\\debug_script\\
 
+
 /*----------------------------------------------------------------------------*/
 void  TakeSnapshot(int snapshot){
 /*------------------------------------------------------------------------------
@@ -14,8 +15,8 @@ void  TakeSnapshot(int snapshot){
 		float *diagnose;
 		diagnose = (float *)malloc(fsize*NUM_DIAG);
 		FILE *diagnose_file_xyz, *diagnose_file_pairs;
-		char file3[1000] = "C:\\UserData\\Narayan\\MD_SIM\\Diagnose_File_Pairs";
-		char file4[1000] = "C:\\UserData\\Narayan\\MD_SIM\\Diagnose_File_XYZ";
+		char file3[1000] = "/usa/dchapp/fenzi/FENZI/trunk/test/dmpc_small/Diagnose_File_Pairs";
+		char file4[1000] = "/usa/dchapp/fenzi/FENZI/trunk/test/dmpc_small/Diagnose_File_XYZ";
 		diagnose_file_pairs = fopen(file3, "w");
 		diagnose_file_xyz = fopen(file4, "w");
 		fprintf(diagnose_file_xyz,"%d\n Membrane\n", nAtom);
@@ -39,7 +40,7 @@ void  TakeSnapshot(int snapshot){
 			FILE *angle_file;
 			float *angles_debug;
 			angles_debug = (float*) malloc(fsize*NUM_ANGLE_DEBUG);
-			angle_file = fopen("C:\\UserData\\Narayan\\debug_script\\angle_debug.dat", "w");
+			angle_file = fopen("angle_debug.dat", "w");
 			cudaMemcpy(angles_debug, angles_debugd, fsize*NUM_ANGLE_DEBUG, cudaMemcpyDeviceToHost);
 			
 			for (int i=0;i<nAtom; i++){
@@ -55,7 +56,7 @@ void  TakeSnapshot(int snapshot){
 			FILE *bond_file;
 			float *bonds_debug;
 			bonds_debug = (float*) malloc(fsize*NUM_BOND_DEBUG);
-			bond_file = fopen("C:\\UserData\\Narayan\\debug_script\\bond_debug.dat", "w");
+			bond_file = fopen("bond_debug.dat", "w");
 			cudaMemcpy(bonds_debug, bonds_debugd, fsize*NUM_BOND_DEBUG, cudaMemcpyDeviceToHost);
 			
 			for (int i=0;i<nAtom; i++){
@@ -103,7 +104,7 @@ void  TakeSnapshot(int snapshot){
 			cudaMemcpy(debug_nonb, debug_nonbd, fsize*NUM_DEBUG_NONB, cudaMemcpyDeviceToHost);
 
 			FILE *nonb_debug_file;
-			nonb_debug_file = fopen("C:\\UserData\\Narayan\\debug_script\\nonb_debug_file.dat", "w");
+			nonb_debug_file = fopen("nonb_debug_file.dat", "w");
 			for (int i=0; i<nAtom; i++){
 				fprintf(nonb_debug_file, "%6.3f\t%6.3f\t%6.3f\t%6.3f\n", 
 						debug_nonb[NUM_DEBUG_NONB*i + 0], debug_nonb[NUM_DEBUG_NONB*i + 1], debug_nonb[NUM_DEBUG_NONB*i + 2], debug_nonb[NUM_DEBUG_NONB*i + 3]);
@@ -159,7 +160,7 @@ void  TakeSnapshot(int snapshot){
 	cudaMemcpy(debug_nblist , debug_nblistd, size*NUM_DEBUG_NBLIST*sizeof(float), cudaMemcpyDeviceToHost);
 	
 	FILE *debug_nblist_file;
-		debug_nblist_file = fopen("C:\\UserData\\Narayan\\debug_script\\nblist_debug_file.dat", "w");
+		debug_nblist_file = fopen("nblist_debug_file.dat", "w");
 		for (int i=0; i<size; i++){
 		fprintf(debug_nblist_file, "%f\t%f\t%f\t%f\n", debug_nblist[NUM_DEBUG_NBLIST*i + 0], debug_nblist[NUM_DEBUG_NBLIST*i + 1],
 			debug_nblist[NUM_DEBUG_NBLIST*i + 2], debug_nblist[NUM_DEBUG_NBLIST*i + 3]);
@@ -176,7 +177,7 @@ void capture_Excllist(){
 //===================================================
 
 	int i, j;
-	FILE *excl_file = fopen("C:\\UserData\\Narayan\\debug_script\\excllist_debug.dat", "w");
+	FILE *excl_file = fopen("excllist_debug.dat", "w");
 	for (i=0; i<nAtom; i++){
 		fprintf(excl_file, "%d\t%d", i, excllist[WorkgroupSize*0 + i]);
 		
@@ -209,9 +210,9 @@ void check_capture_nbcell(){
 	cudaMemcpy(num_nonbond_h, num_nonbond, sizeof(int)*NumCells_Maximum, cudaMemcpyDeviceToHost);
 	cudaMemcpy(r, r4d, f4size, cudaMemcpyDeviceToHost);
 
-	FILE* Cell_List = fopen("C:\\UserData\\Narayan\\debug_script\\Cell_List.dat", "w");
-	FILE* Freq_List = fopen("C:\\UserData\\Narayan\\debug_script\\Freq_List.dat", "w");
-	FILE* Num_List = fopen("C:\\UserData\\Narayan\\debug_script\\Num_List.dat", "w");
+	FILE* Cell_List = fopen("Cell_List.dat", "w");
+	FILE* Freq_List = fopen("Freq_List.dat", "w");
+	FILE* Num_List = fopen("Num_List.dat", "w");
 
 	for (cell=0;cell<NumCells_Maximum; cell++){
 		z = cell/(NumCells.x*NumCells.y);
@@ -305,9 +306,9 @@ void captureLatticeList(int task, int report, int suffix){
 		char Cell_ListFile[1000];
 		char Freq_ListFile[1000];
 		char Num_ListFile[1000];
-		sprintf(Cell_ListFile, "C:\\UserData\\Narayan\\MD_SIM\\Cell_List%d.dat", suffix);
-		sprintf(Freq_ListFile, "C:\\UserData\\Narayan\\MD_SIM\\Freq_List%d.dat", suffix);
-		sprintf(Num_ListFile, "C:\\UserData\\Narayan\\MD_SIM\\Num_List%d.dat", suffix);
+		sprintf(Cell_ListFile, "Cell_List%d.dat", suffix);
+		sprintf(Freq_ListFile, "Freq_List%d.dat", suffix);
+		sprintf(Num_ListFile, "Num_List%d.dat", suffix);
 		
 		//Cell_List = fopen(Cell_ListFile, "w");
 		//Freq_List = fopen(Freq_ListFile, "w");
@@ -316,7 +317,7 @@ void captureLatticeList(int task, int report, int suffix){
 		//This is to capture the position and the list of cells for a particular atom...
 		if (atom_lattice>=0) {
 			char Atom_LatticeFile[1000];
-			sprintf(Atom_LatticeFile, "C:\\UserData\\Narayan\\MD_SIM\\Atom_Lattice%d_%d.dat", atom_lattice, suffix);
+			sprintf(Atom_LatticeFile, "Atom_Lattice%d_%d.dat", atom_lattice, suffix);
 			Atom_Lattice = fopen(Atom_LatticeFile, "w");
 			fprintf(Atom_Lattice, "%d\n", atom_lattice);
 			fprintf(Atom_Lattice, "%f %f %f %f\n", r4_scaled[atom_lattice].x, r4_scaled[atom_lattice].y, r4_scaled[atom_lattice].z, r4_scaled[atom_lattice].w );
@@ -382,8 +383,8 @@ int *nblist;
 int i,j,n;
 nblist = (int*) malloc(isize*MAXNB);
 FILE *nblist_file, *nbnum_file;
-nblist_file = fopen("C:\\UserData\\Narayan\\debug_script\\NonBondList.dat", "w");
-nbnum_file = fopen("C:\\UserData\\Narayan\\debug_script\\NonBondNum.dat", "w");
+nblist_file = fopen("NonBondList.dat", "w");
+nbnum_file = fopen("NonBondNum.dat", "w");
 
 cudaMemcpy(nblist, nblistd, isize*MAXNB, cudaMemcpyDeviceToHost);
 
@@ -416,7 +417,7 @@ void capture_Q(){
 
 	cudaMemcpy(Q, Qd, sizeof(cufftComplex)*Total_PME_Lattices, cudaMemcpyDeviceToHost);
 	FILE *Q_matrix;
-	Q_matrix = fopen("C:\\UserData\\Narayan\\MD_SIM\\Q_matrix.dat", "w");
+	Q_matrix = fopen("Q_matrix.dat", "w");
 	for (k=0;k<fftz; k++)
 	for (j=0;j<ffty; j++){
 	for (i=0;i<fftx; i++){
@@ -475,7 +476,7 @@ void capture_position(int task, int stepcount){
 
 		dist = sqrt(nearest_dist[0]*nearest_dist[0] + nearest_dist[1]*nearest_dist[1] + nearest_dist[2]*nearest_dist[2]);
 
-		sprintf(file_suffix, "C:\\UserData\\Narayan\\MD_SIM\\dmpc_%d_%d", atomid1, atomid2);
+		sprintf(file_suffix, "dmpc_%d_%d", atomid1, atomid2);
 		atomfile = fopen(file_suffix, "a");
 		fprintf(atomfile, "%d\t%f\t%f\t%f\t%f\t%f\t%f\t%f\n", stepCount, r[atomid1].x, r[atomid1].y, r[atomid1].z, r[atomid2].x, r[atomid2].y, r[atomid2].z, dist);
 		fclose(atomfile);

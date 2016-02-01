@@ -15,6 +15,7 @@
 #include "globals.h"
 #include "cucomplexops.h"
 
+
 #define USE_NEW_NONBOND
 #ifdef USE_NEW_NONBOND
 // -----------------------------------------------------------------------------
@@ -47,6 +48,7 @@ __global__ void nonbondforce(float4* f4d_nonbond
 	unsigned int gtid = COMPUTE_GLOBAL_THREADID;
 	int nnb = 0;
 	unsigned int atomid = gtid % WorkgroupSized;
+
 
 	int i;
 	int j;
@@ -118,6 +120,7 @@ __global__ void nonbondforce(float4* f4d_nonbond
 		//tex1Dfetch(texnblist, i*WorkgroupSized + atomid);
 		//nblistd[i*WorkgroupSized + atomid];
 		j = unpack_atomid(t1);
+
 		r1 = tex1Dfetch(texcrd, j);
 
 	#ifdef USE_CONSFIX
@@ -274,7 +277,7 @@ __global__ void nonbondforce(float4* f4d_nonbond
 // -----------------------------------------------------------------------------
 // Old nonbond forces of ng - this version computes eps and sigma at runtime
 // Use of shared memory is activated with this definition
-// #define USE_SHMEM
+//#define USE_SHMEM
 
 //------------------------------------------------------------------------------
 __global__ void nonbondforce(float4* f4d_nonbond

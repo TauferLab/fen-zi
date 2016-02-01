@@ -13,6 +13,14 @@
 
 // #define DEBUG_CONSFIX
 
+
+// Turn on features to assess and guarantee numerical reproducibility
+// 1. Prints nonbond lists of each atomid to file
+// 2. Sorts the nonbond lists of each atomid prior to calling nonbondforce kernel 
+//    in ComputeAccelGPU() host function. 
+// 3. 
+#define REPRO
+
 #ifndef _DEFS_H
 #define _DEFS_H
 

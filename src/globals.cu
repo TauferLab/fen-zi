@@ -23,7 +23,7 @@
 // consfix
 // //#define USE_CONSFIX
 // //#define DEBUG_NPT
-//#define EXPLICIT_EWALD_LIST
+#define EXPLICIT_EWALD_LIST
 
 int printtostdout = 1;
 
@@ -261,7 +261,7 @@ float shaketol = 1e-6f; //shake tolerance...
 int nClusters = 0;
 //__constant__ __device__ int nClustersd;
 char shake = 0;
-float hfac = 1;
+float hfac = 2;
 //////////////////End Shake Parameters and Variables/////////////
 
 #ifdef PCONSTANT

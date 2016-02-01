@@ -1,0 +1,4 @@
+install:
+	/bin/mkdir -p "/usr/local/bin" ; /bin/cp "/usa/dchapp/fenzi/FENZI/branch/dchapp-reproducible/build/fenzi_2_00" "/usr/local/bin"
+uninstall:
+	/bin/rm -f "/usr/local/bin/fenzi_2_00"

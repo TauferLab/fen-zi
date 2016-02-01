@@ -1,0 +1,56 @@
+# blank lines and lines starting with '#' are comments...
+# the list of parameters is unordered and the descriptors are case insensitive
+
+# descriptor	Value
+coordinates 		water_eqbox.crd
+structure 		water_eqbox_numeric.psf
+parameters 		par_all22_prot.inp
+topology 		top_all22_prot.inp
+
+temperature 		298
+thermostat		5.0
+tempresetTiming		20000
+
+#timestep is defined in pico seconds   
+timestep 		0.001
+startstep		0
+dynasteps		1
+outputTiming		1
+checkpointTiming 	100000000
+KAPPa           	0.32
+
+cuton		7
+cutoff          8
+pairlistdist    9.5
+gpublocksize	128
+
+#dimensions of the cell, currently only rectangular cells are supported..
+CellBasisVector1        52.0	0     	0
+cellBasisVector2        0       52.0 	0
+cellBasisVector3        0       0       52.0
+
+# full electrostatics
+PMEGridSizeX    64
+PMEGridSizeY    64
+PMEGridSizeZ    64
+
+#hydrogen factor to multiply mass of H.. used only if shake is 'off'
+# hfac			2
+shake	on	1e-10
+
+#printlevel 0 - no printing, 1 - output only energy, 2 - output energy and trajectory
+printlevel 		1
+
+#output energies to file (1) or stdout (0)
+printtostdout 		1
+
+#keep checkpoints in folder(1) or remove previous checkpoints(0)
+keepcheckpoints		1	
+
+#checkpoint format binary(b) or ascii(a)
+checkpointformat	Ascii
+seed         		2345
+
+#trajectory output
+outputtrajectory tip3_4538.trj
+

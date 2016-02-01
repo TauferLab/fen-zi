@@ -67,9 +67,15 @@ void InitVelocity(){
 	*/
 
 #ifdef DEBUG_NPT
-	srand((unsigned int)seed);
+	//srand((unsigned int)seed);
+#ifdef REPRO
+    srand(2345);
+#endif
 #else
-	srand((unsigned int)time(NULL));
+	//srand((unsigned int)time(NULL));
+#ifdef REPRO
+    srand(2345);
+#endif
 #endif
 
 	float mass;
@@ -83,12 +89,18 @@ void InitVelocity(){
 		vMag = (float)sqrt(RC * InitTemp / mass);
 
 		genrandfloat2(e);
+
+
 		rv[n].x = vMag * sqrt(-2.0f * log(e.x)) * cos(2.0f * PI * (e.y));
 
 		genrandfloat2(e);
+
+
 		rv[n].y = vMag * sqrt(-2.0f * log(e.x)) * cos(2.0f * PI * (e.y));
 
 		genrandfloat2(e);
+
+
 		rv[n].z = vMag * sqrt(-2.0f * log(e.x)) * cos(2.0f * PI * (e.y));
 
 		vSum[0] += mass * rv[n].x;
@@ -146,6 +158,8 @@ void InitVelocity(){
 ////////end save velocities///////
 
 	//exit(0);
+
+
 	cudaMemcpy(v4d, rv, f4size, cudaMemcpyHostToDevice);
 
 	//--------------------Enable for RATTLE----------------------------
@@ -171,6 +185,7 @@ void InitVelocity(){
 		//save the old positions before updating coordinates...
 		cudaMemcpy(r4shaked, r4d, f4size, cudaMemcpyDeviceToDevice);
 
+
 		UpdateCoords<<<DynadimGrid, DynadimBlock>>>(r4d, v4d
 #ifdef PCONSTANT
 		                                          , viriald
@@ -190,6 +205,7 @@ void InitVelocity(){
 #endif
 		                                                     );
 
+
 		cudaThreadSynchronize();
 		checkCUDAError("SHAKE");
 
@@ -206,6 +222,7 @@ void InitVelocity(){
 	memset(f4h_nonbond1, 0, NBPART * sizeof(float4) * NMAX);
 #endif
 #endif
+
 
 	return;
 }

@@ -1225,7 +1225,6 @@ __global__ void nbbuild_exclbitvec(float4* rd,
 						}
 					}// for i<n
 				}//if active_thread
-
 			}
 		}
 	}
@@ -1251,6 +1250,7 @@ __global__ void nbbuild_exclbitvec(float4* rd,
 	debug_nblistd[gtid * NUM_DEBUG_NBLIST + 2] = var2;
 	debug_nblistd[gtid * NUM_DEBUG_NBLIST + 3] = var3;
 #endif
+
 
 	return;
 }

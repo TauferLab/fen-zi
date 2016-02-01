@@ -21,6 +21,10 @@
 #include "nonbonded_forces.h"
 #include "cell_based_kernels.h"
 #include "pme_kernels.h"
+
+#ifdef REPRO
+    #include "stdlib.h"
+#endif
 //==============================================================================
 
 /*----------------------------------------------------------------------------*/
@@ -553,6 +557,15 @@ __device__ float4 ewaldCorrection(float4 r, float& eEwexcl){
 }
 #endif //PME_CALC
 
+// for sorting the nonbondlist
+#ifdef REPRO
+int comp_func(const void *a, const void *b) {
+    int *x = (int *) a;
+    int *y = (int *) b;
+    return *x - *y;
+}
+#endif
+
 //------------------------------------------------------------------------------
 void ComputeAccelGPU(){
 //------------------------------------------------------------------------------
@@ -671,6 +684,35 @@ void ComputeAccelGPU(){
 	cpu1 = clock();
 #endif
 
+ 
+
+// Sort the nonbond lists for each atomid so that the forces 
+// computed in the nonbondforce kernel are reproducible from run to run. 
+#ifdef REPRO
+    int *nblist_sorted;
+    int *single_nblist;
+    int i,j,n;
+    nblist_sorted = (int*) malloc(isize*MAXNB);
+    cudaMemcpy(nblist_sorted, nblistd, isize*MAXNB, cudaMemcpyDeviceToHost);
+    // for each atom
+    for (i=0; i<nAtom; i++) {
+        n = nblist_sorted[i];
+        single_nblist = (int*) malloc(n*sizeof(int));
+        // get its nonbond list, sort it, put it back
+        for (j=1; j<=n; j++) {
+            single_nblist[j-1] = nblist_sorted[j*WorkgroupSize + i];
+        }
+        qsort(single_nblist, n, sizeof(int), comp_func);
+        for (j=1; j<=n; j++) {
+            nblist_sorted[j*WorkgroupSize + i] = single_nblist[j-1];
+        }
+        free(single_nblist);
+    }
+    cudaMemcpy(nblistd, nblist_sorted, isize*MAXNB, cudaMemcpyHostToDevice);       
+
+    free(nblist_sorted);
+#endif
+
 	nonbondforce<<<NBdimGrid, NBdimBlock>>>(f4d_nonbond
 #ifdef USE_CONSFIX
 #ifdef DEBUG_CONSFIX
@@ -685,6 +727,7 @@ void ComputeAccelGPU(){
 	                                      , debug_nonbd
 #endif
 	                                                   );
+
 
 #ifdef PROFILING
 	cudaThreadSynchronize();

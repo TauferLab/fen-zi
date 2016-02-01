@@ -12,7 +12,7 @@
 // consfix
 // #define USE_CONSFIX
 // #define DEBUG_NPT
-#define EXPLICIT_EWALD_LIST
+//#define EXPLICIT_EWALD_LIST
 
 extern int printtostdout;
 

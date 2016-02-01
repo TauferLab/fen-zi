@@ -1,0 +1,19 @@
+Reading top_all27_prot_na+all36_lipid-nocmap.rtf...
+Reading par_all27_prot_na+all36_lipid-nocmap.prm...
+BONDS
+1 1 0.000000 1.513900		 hash = 1		HT HT
+0 1 900.000000 0.957200		 hash = 0		OT HT
+ANGLES
+1 0 1 55.000000 104.519997	 hashAngle = 0		!HT OT HT
+DIHEDRALS
+IMPROPER
+NONBONDED
+1 0.000000 0.046000 0.200007	!		HT 
+0 0.000000 0.152100 1.575287	!		OT 
+NBFIX
+HBOND
+NONBONDED=2	BONDS=2	ANGLES=1	UREY-BRADLEY=0	DIHEDRALS(including folds)=0	IMPROPERS=0
+Open trajectory file and write headers...
+Print energies at step 0...
+Continuing Dynamics...
+Printed time =         30.95, Avg time/step =      312.626(ms), Ns per day =     0.276368

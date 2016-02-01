@@ -1,0 +1,121 @@
+
+Device 0: Tesla C2050
+
+Device 0: Tesla C2050
+Region.x 52.000000 
+Region.y 52.000000 
+Region.z 52.000000 
+Loading CRD coordinates
+Unrecognized token  for value "shake"(must be either "on", or "off"), defaulting to "off"
+option trajfrequencyTiming not specified.
+defaulting to outputTiming value of 1.
+Coordinates : water_eqbox.crd
+15Structure : water_eqbox_numeric.psf
+PRM : par_all27_prot_na+all36_lipid-nocmap.prm
+TOP : top_all27_prot_na+all36_lipid-nocmap.rtf
+Region.x = 52.000000, Region.y = 52.000000, Region.z = 52.000000
+------------------------------------------------------------------------------
+See logfile :'tip3_4538.log' for Molecular System Parameters
+Writing to OutputFile: tip3_4538.out
+13614 	 coordinates successfully read. Maximum allowed number of atoms = 300000
+-26.594360 -26.689880 -26.604460
+GPUgrid.x = 107, GPUgrid.y = 1, GPUblock.x = 128
+FFT GridSize = 64 x 64 x 64
+Allocated Host Memory
+TYPE_PRESENT: 2
+Num Bonds = 13614, Num Angles = 4538, Num Diheds = 0, Num Impropers = 0
+NBFIX: 2
+-----------------------
+ Device Memory Usage
+-----------------------
+Positn :    0.21 MB
+Positn :    0.21 MB
+PrePos :    0.21 MB
+NumNnB :    0.00 MB
+CellNB :    0.11 MB
+M4DSpl :    0.00 MB
+dM4DSp :    0.00 MB
+ScaleR :    0.21 MB
+PrevSR :    0.21 MB
+DispIn :    0.21 MB
+enPMEd :    0.05 MB
+enEwex :    0.10 MB
+QdCFFT :    2.00 MB
+LatNum :    1.00 MB
+LatLst :   64.00 MB
+Veloct :    0.21 MB
+ForceD :    0.21 MB
+ForceD :    0.42 MB
+ForceD :    0.42 MB
+MinPos :    0.21 MB
+PrvFrc :    0.21 MB
+HtdMin :    0.16 MB
+Nupdat :    0.00 MB
+enBond :    0.10 MB
+enAngl :    0.10 MB
+eUreyB :    0.10 MB
+enDihe :    0.10 MB
+enImpr :    0.10 MB
+enVDWd :    0.10 MB
+enElec :    0.10 MB
+DihIdx :    3.40 MB
+DiType :    0.00 MB
+DihSet :    0.00 MB
+DiPrmd :    0.00 MB
+ImpIdx :    3.40 MB
+Impset :    0.00 MB
+ImpPrm :    0.00 MB
+AngIdx :    3.40 MB
+AngSet :    0.07 MB
+AngPrm :    0.00 MB
+UryIdx :    6.74 MB
+UryPrm :    0.00 MB
+BndIdx :    3.40 MB
+BndPrm :    0.00 MB
+NBList :   30.30 MB
+ExlLst :    1.72 MB
+Exlbit :    0.10 MB
+ExlOfs :    0.01 MB
+ExlLst :    1.72 MB
+AtmPrm :    0.00 MB
+NBFIXAtmPrm :    0.00 MB
+AtmTyp :    0.05 MB
+MolTyp :    1.14 MB
+MolMass :    4.58 MB
+minimz :    0.00 MB
+minimz :    0.00 MB
+Prm1_4 :    0.00 MB
+-------------------------
+TotalM :  131.13 MB
+-------------------------
+Constant		Actual	Curr	Perf
+--------------------------------------------------
+MAXTYP			2	64	64
+MAX_BOND_TYPE		2	64	64
+MAX_ANGLE_TYPE		1	64	64
+MAX_DIHED_TYPE		0(*)	64	64
+--------------------------------------------------
+(*) - Includes Folds
+--------------------------------------------------
+Checking Static Parameters
+Cell Info:	Max cell occupancy =	100(cell	2, 1, 1),	Max allowed = 128,	Recommended >= 125,	Stability = High
+Calling CellBuild
+Calling CheckNonBondNum
+===============
+Nonbond Info:	Max nonbond neighbors =	385(atomid	12767),		Max allowed = 580,	Recommended >= 452,	Stability = High
+===============
+Lattice Info:	Max lattice neighbors =	10(lattice	31, 35, 26),	Max allowed = 64,	Recommended >= 13,	Stability = High
+Calling CellBuild
+Calling NBBuild_Kernel
+------------------------------------------------------------------------------
+Trajectory prefix :tip3_4538
+
+-------------------------
+Continuing dynamics...
+-------------------------
+Calling NBBuild_Kernel
+Calling NBBuild_Kernel
+Calling NBBuild_Kernel
+Calling NBBuild_Kernel
+Calling NBBuild_Kernel
+Printed time =          31.9, Avg time/step =      322.222(ms), Ns per day =     0.268138

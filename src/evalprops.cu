@@ -189,6 +189,8 @@ Evaluates physical properties: kinetic, potential & total energies.
 		for(int k = 0; k < NBPART; k++){
 			potEnergy += f4h_nonbond[k * WorkgroupSize + n].w;
 			sumelec += eelec[k * WorkgroupSize + n];
+            
+
 			sumvdw += evdw[k * WorkgroupSize + n];
 		}
 
@@ -245,6 +247,28 @@ Evaluates physical properties: kinetic, potential & total energies.
 		printout("DYNA>\t");
 	}
 
+////////////////////////////////////////
+#ifdef REPRO // HIGHER OUTPUT PRECISION
+////////////////////////////////////////
+	printout("%-9d %-10.4f %f %f %f ",
+	         stepCount, stepCount * DeltaT, temperature, sumbond, sumangle);
+#ifdef UREY_BRADLEY
+	printout("%f ", sumureyb);
+#endif
+#ifdef IMPROPER
+	printout("%f ", sumimprop);
+#endif
+	printout("%f %f %f ", sumdihed, sumvdw, sumelec);
+#ifdef PME_CALC
+	printout("%f %f %f ", sumPME, sumEwexcl, eEwself);
+#endif
+#ifdef PCONSTANT
+	printout("%f %f ", scalarvirialT, pressure);
+#endif
+	printout("%f %f %f", potEnergy, kinEnergy, totEnergy);
+/////////////////////////////////
+#else // NORMAL OUTPUT PRECISION
+/////////////////////////////////
 	printout("%-9d %-10.4f %-10.4f %-11.4f %-11.4f ",
 	         stepCount, stepCount * DeltaT, temperature, sumbond, sumangle);
 #ifdef UREY_BRADLEY
@@ -261,6 +285,10 @@ Evaluates physical properties: kinetic, potential & total energies.
 	printout("%-12.4f %-10.4f ", scalarvirialT, pressure);
 #endif
 	printout("%-13.4f %-13.4f %-13.4f", potEnergy, kinEnergy, totEnergy);
+////////////////////////////////////////
+#endif //REPRO
+////////////////////////////////////////
+
 #ifdef PROFILING
 	printout("\t%d", nblist_call_count);
 #endif

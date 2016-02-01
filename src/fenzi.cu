@@ -1,3 +1,5 @@
+/* -*- mode: C++; tab-width: 2; indent-tabs-mode: t; c-basic-offset: 2 -*- */
+// vim:sts=2:sw=2:ts=2:noet:sr:cino=>s,f0,{0,g0,(0,\:0,t0,+0,=s
 /*****************************************************************************/
 //
 // MD code for GPU based on a modified version of the CHARMM force field, with
@@ -159,12 +161,13 @@ int main(int argc, char** argv){
 
 	//generate check point file and log file names
 	sprintf(checkpointfilename, "%s.rst", filename_prefix);
-	sprintf(logfileName, "%s_dev%d.log", filename_prefix, devicenum);
-
+	// sprintf(logfileName, "%s_dev%d.log", filename_prefix, devicenum);
+	sprintf(logfileName, "%s.log", filename_prefix);
 	printf("----------------------------------------" \
 	       "--------------------------------------\n");
 	printf("See logfile :'%s' for Molecular System Parameters\n", logfileName);
-	sprintf(outFileName, "%s_dev%d.out", filename_prefix, devicenum);
+	// sprintf(outFileName, "%s_dev%d.out", filename_prefix, devicenum);
+	sprintf(outFileName, "%s.out", filename_prefix);
 	logfile = fopen(logfileName, "w");
 	outfile = fopen(outFileName,"a");
 
@@ -259,6 +262,30 @@ int main(int argc, char** argv){
 	// build nonbond list
 	BuildNBGPU();
 
+#ifdef REPRO
+    int *nblist;
+    int j,n;
+    nblist = (int*) malloc(isize*MAXNB);
+    FILE *nblist_file, *nbnum_file;
+    nblist_file = fopen("NonBondList.dat", "w");
+    nbnum_file = fopen("NonBondNum.dat", "w");
+
+    cudaMemcpy(nblist, nblistd, isize*MAXNB, cudaMemcpyDeviceToHost);
+
+    for (i=0;i<nAtom;i++){
+        n = nblist[i];
+        fprintf(nbnum_file, "%d\t%d\n", i,n);
+        fprintf(nblist_file, "%d\t%d\t", i,n);
+        for (j=1;j<=n;j++){
+            fprintf(nblist_file, "%d ", nblist[j*WorkgroupSize + i]);
+        }
+        fprintf(nblist_file, "\n");
+    }
+    fclose(nblist_file);
+    fclose(nbnum_file);
+    free(nblist);
+#endif
+
 #ifdef PROFILING
 	cpu2 += ((double)clock() - cpu_singlestep) / CLOCKS_PER_SEC;
 	cpu_singlestep = ((double)clock());
@@ -294,7 +321,7 @@ int main(int argc, char** argv){
 		       "-----------------------------------------\n");
 		printf("Trajectory prefix :%s\n", trajFileNamePrefix);
 
-		sprintf(trajFileName, "%s_dev%d.dcd", trajFileNamePrefix, devicenum);
+		sprintf(trajFileName, "%s.dcd", trajFileNamePrefix);
 
 		f = ffopen(trajFileName, "wb");
 
@@ -560,6 +587,9 @@ int main(int argc, char** argv){
 	fprintf(logfile, "Printed time =  %12.6g, Avg time/step = %12.6g(ms),"
 	        " Ns per day = %12.6g\n",
 	        timer_lapse, 1000 * timeperstep, (86.4 / timeperstep) * DeltaT);
+	fprintf(outfile, "TIME>  total time = %12.6g; avg time/step = %12.6g(ms);"
+	        " ns/day = %12.6g \n",
+	        timer_lapse, 1000 * timeperstep, (86.4 / timeperstep) * DeltaT);
 	printf("Printed time =  %12.6g, Avg time/step = %12.6g(ms),"
 	       " Ns per day = %12.6g\n",
 	       timer_lapse, 1000 * timeperstep, (86.4 / timeperstep) * DeltaT);
@@ -571,7 +601,7 @@ int main(int argc, char** argv){
 	}
 
 #ifdef PROFILING
-	printf("Total GPU Time(s),%12.6g\n\n", cpu2);
+	/*	printf("Total GPU Time(s),%12.6g\n\n", cpu2);
 	printf("Bond,%12.6g\n", profile_times[BOND]);
 	printf("Angle,%12.6g\n", profile_times[ANGLE]);
 	printf("Dihed,%12.6g\n", profile_times[DIHED]);
@@ -591,6 +621,28 @@ int main(int argc, char** argv){
 	printf("Shake,%12.6g\n", profile_times[CONSTRAINTS]);
 	printf("CUFFT,%12.6g\n", profile_times[CUDAFFT]);
 	printf("Evalprops,%12.6g\n", profile_times[EVALPROPS]);
+	*/
+
+	printf("%12.6g\n\n", cpu2);
+	printf("%12.6g\n", profile_times[BOND]);
+	printf("%12.6g\n", profile_times[ANGLE]);
+	printf("%12.6g\n", profile_times[DIHED]);
+	printf("%12.6g\n", profile_times[NONBOND]);
+	printf("%12.6g\n", profile_times[NBBUILD]);
+	printf("%12.6g\n", profile_times[CELLBUILD]);
+	printf("%12.6g\n", profile_times[CELLUPDATE]);
+	printf("%12.6g\n", profile_times[CELLCLEAN]);
+	printf("%12.6g\n", profile_times[CHARGESPREAD]);
+	printf("%12.6g\n", profile_times[BCMULTIPLY]);
+	printf("%12.6g\n", profile_times[PMEFORCE]);
+	printf("%12.6g\n", profile_times[LATTICEBUILD]);
+	printf("%12.6g\n", profile_times[HALFKICK]);
+	printf("%12.6g\n", profile_times[COORDSUPDATE]);
+	printf("%12.6g\n", profile_times[LATTICEUPDATE]);
+	printf("%12.6g\n", profile_times[REDUCE]);
+	printf("%12.6g\n", profile_times[CONSTRAINTS]);
+	printf("%12.6g\n", profile_times[CUDAFFT]);
+	printf("%12.6g\n", profile_times[EVALPROPS]);
 
 	double kernel_times = 0.0f;
 	kernel_times = profile_times[HALFKICK] + profile_times[COORDSUPDATE];
@@ -603,7 +655,8 @@ int main(int argc, char** argv){
 	kernel_times += profile_times[REDUCE] + profile_times[CONSTRAINTS];
 	kernel_times += profile_times[CELLBUILD];
 
-	printf("\n\nOther,%g\n", (cpu2 - kernel_times));
+	// 	printf("\n\nOther,%g\n", (cpu2 - kernel_times));
+	printf("%g\n", (cpu2 - kernel_times));
 #endif
 
 	fclose(outfile);

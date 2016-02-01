@@ -503,7 +503,7 @@ void ReadInput(char* input_filename){
 		printf("File %s not found\n", input_filename);
 		exit(-1);
 	}
-
+	TrjFreq = -1;
 	while(fgets(line, 9999, conffile)){
 
 		descriptor = strtok(line, delims);
@@ -532,91 +532,88 @@ void ReadInput(char* input_filename){
 			sprintf(topFileName, "%s", strtok(NULL, delims));
 			continue;
 		}
-		if(!cicompare(descriptor, "temperature")){
+		else if(!cicompare(descriptor, "temperature")){
 			InitTemp = (float)atof(strtok(NULL, delims));
 			continue;
 		}
-		if(!cicompare(descriptor, "thermostat")){
+		else if(!cicompare(descriptor, "thermostat")){
 			Tau = (float)atof(strtok(NULL, delims));
 			continue;
 		}
-		if(!cicompare(descriptor, "minimizesteps")){
+		else if(!cicompare(descriptor, "minimizesteps")){
 			MinimizeStepLimit = (int)atof(strtok(NULL, delims));
 			continue;
 		}
-		if(!cicompare(descriptor, "conjgradfac")){
+		else if(!cicompare(descriptor, "conjgradfac")){
 			cgfac = (float)atof(strtok(NULL, delims));
 			continue;
 		}
-		if(!cicompare(descriptor, "steepdesfac")){
+		else if(!cicompare(descriptor, "steepdesfac")){
 			sdfac = (float)atof(strtok(NULL, delims));
 			continue;
 		}
-		if(!cicompare(descriptor, "conjgradrate")){
+		else if(!cicompare(descriptor, "conjgradrate")){
 			cgrate = (float)atof(strtok(NULL, delims));
 			continue;
 		}
-		if(!cicompare(descriptor, "steepdesrate")){
+		else if(!cicompare(descriptor, "steepdesrate")){
 			sdrate = (float)atof(strtok(NULL, delims));
 			continue;
 		}
-		if(!cicompare(descriptor, "startstep")){
+		else if(!cicompare(descriptor, "startstep")){
 			StartCount = (int)atoi(strtok(NULL, delims));
 			continue;
 		}
-		if(!cicompare(descriptor, "timestep")){
+		else if(!cicompare(descriptor, "timestep")){
 			DeltaT = (float)atof(strtok(NULL, delims));
 			continue;
 		}
-		if(!cicompare(descriptor, "dynasteps")){
+		else if(!cicompare(descriptor, "dynasteps")){
 			StepLimit = (int)atoi(strtok(NULL, delims));
 			continue;
 		}
-		if(!cicompare(descriptor, "KAPPa")){
+		else if(!cicompare(descriptor, "KAPPa")){
 			KAPPa  = (float)atof(strtok(NULL, delims));
 			continue;
 		}
-		if(!cicompare(descriptor, "INBFRQ")){
+		else if(!cicompare(descriptor, "INBFRQ")){
 			INBFRQ  = (int)atoi(strtok(NULL, delims));
 			continue;
 		}
-		if(!cicompare(descriptor, "tempresetTiming")){
+		else if(!cicompare(descriptor, "tempresetTiming")){
 			VAssign = (int)atoi(strtok(NULL, delims));
 			continue;
 		}
-		if(!cicompare(descriptor, "outputTiming")){
+		else if(!cicompare(descriptor, "outputTiming")){
 			StepAvg = (int)atoi(strtok(NULL, delims));
 			continue;
 		}
-		if(!cicompare(descriptor, "checkpointTiming")){
+		else if(!cicompare(descriptor, "checkpointTiming")){
 			StepStore = (int)atoi(strtok(NULL, delims));
 			continue;
 		}
-		if(!cicompare(descriptor, "cuton")){
+		else if(!cicompare(descriptor, "cuton")){
 			Cuton = (float)atof(strtok(NULL, delims));
 			continue;
 		}
-		if(!cicompare(descriptor, "cutoff")){
+		else if(!cicompare(descriptor, "cutoff")){
 			Cutoff = (float)atof(strtok(NULL, delims));
 			continue;
 		}
-		if(!cicompare(descriptor, "pairlistdist")){
+		else if(!cicompare(descriptor, "pairlistdist")){
 			CutMax = (float)atof(strtok(NULL, delims));
 			continue;
 		}
-		if(!cicompare(descriptor, "gpublocksize")){
+		else if(!cicompare(descriptor, "gpublocksize")){
 			BlockSize = (int)atoi(strtok(NULL, delims));
 			continue;
 		}
-		if(!cicompare(descriptor, "trajfrequencyTiming")){
+		else if(!cicompare(descriptor, "trajfrequencyTiming")){
 			TrjFreq = (int)atoi(strtok(NULL, delims));
 			continue;
 		}
-		else{
-			TrjFreq = StepAvg;
-		}
 
-		if(!cicompare(descriptor, "cellbasisvector1")){
+		else if(!cicompare(descriptor, "cellbasisvector1")){
 			temp = (float)atof(strtok(NULL, delims));
 			//read into temp and assign to Region to
 			//suppress "variable unused" warnings..
@@ -627,7 +624,7 @@ void ReadInput(char* input_filename){
 			continue;
 		}
 
-		if(!cicompare(descriptor, "cellbasisvector2")){
+		else if(!cicompare(descriptor, "cellbasisvector2")){
 			temp = (float)atof(strtok(NULL, delims));
 			temp = (float)atof(strtok(NULL, delims));
 			Region.y = temp;
@@ -636,7 +633,7 @@ void ReadInput(char* input_filename){
 			continue;
 		}
 
-		if(!cicompare(descriptor, "cellbasisvector3")){
+		else if(!cicompare(descriptor, "cellbasisvector3")){
 			temp = (float)atof(strtok(NULL, delims));
 			temp = (float)atof(strtok(NULL, delims));
 			temp = (float)atof(strtok(NULL, delims));
@@ -646,57 +643,57 @@ void ReadInput(char* input_filename){
 		}
 
 #ifdef PME_CALC
-		if(!cicompare(descriptor, "pmegridsizex")){
+		else if(!cicompare(descriptor, "pmegridsizex")){
 			fftx = (int)atoi(strtok(NULL, delims));
 			continue;
 		}
-		if(!cicompare(descriptor, "pmegridsizey")){
+		else if(!cicompare(descriptor, "pmegridsizey")){
 			ffty = (int)atoi(strtok(NULL, delims));
 			continue;
 		}
-		if(!cicompare(descriptor, "pmegridsizez")){
+		else if(!cicompare(descriptor, "pmegridsizez")){
 			fftz = (int)atoi(strtok(NULL, delims));
 			continue;
 		}
 #endif
 
 #ifdef PCONSTANT
-		if(!cicompare(descriptor, "pmass")){
+		else if(!cicompare(descriptor, "pmass")){
 			pmass_cubic = (float)atof(strtok(NULL, delims));
 			continue;
 		}
-		if(!cicompare(descriptor, "pref")){
+		else if(!cicompare(descriptor, "pref")){
 			pRef = (float)atof(strtok(NULL, delims));
 			continue;
 		}
 #endif
 
-		if(!cicompare(descriptor, "consharm")){
+		else if(!cicompare(descriptor, "consharm")){
 			sprintf(segname0, "%s", strtok(NULL, " \t"));
 			sprintf(segname1, "%s", strtok(NULL, delims));
 			restraints = 1;
 		}
 
-		if(!cicompare(descriptor, "consharmdist")){
+		else if(!cicompare(descriptor, "consharmdist")){
 			consharmdist.x = (float)atof(strtok(NULL, delims));
 			consharmdist.y = (float)atof(strtok(NULL, delims));
 			consharmdist.z = (float)atof(strtok(NULL, delims));
 			continue;
 		}
 
-		if(!cicompare(descriptor, "consharmfc")){
+		else if(!cicompare(descriptor, "consharmfc")){
 			consharmfc = (float)atof(strtok(NULL, delims));
 			continue;
 		}
 
-		if(!cicompare(descriptor, "shake")){
+		else if(!cicompare(descriptor, "shake")){
 			sprintf(shake_preference, "%s", strtok(NULL, delims));
 			shaketol = (float)atof(strtok(NULL, delims)); //shake tolerance...
 			continue;
 		}
 
 #ifdef USE_CONSFIX
-		if(!cicompare(descriptor, "consfix")){
+		else if(!cicompare(descriptor, "consfix")){
 			// printf("CONSFIX: \n");
 			j = 0;
 			// char *tempstring;
@@ -713,7 +710,7 @@ void ReadInput(char* input_filename){
 			/*
 			TO DO - make this part fo the code robust !!!
 			the code has tocheck that the number od segment are matching the list
-                        if (j < 2) {
+                      if (j < 2) {
 			  printf("ERROR: constfix needs at least two segments \n");
 			  exit(-1);
 			}
@@ -722,31 +719,31 @@ void ReadInput(char* input_filename){
 		}
 #endif
 
-		if(!cicompare(descriptor, "hfac")){
+		else if(!cicompare(descriptor, "hfac")){
 			hfac = (float)atof(strtok(NULL, delims));
 			continue;
 		}
-		if(!cicompare(descriptor, "printlevel")){
+		else if(!cicompare(descriptor, "printlevel")){
 			PrintLevel = (int)atoi(strtok(NULL, delims));
 			continue;
 		}
-		if(!cicompare(descriptor, "printtostdout")){
+		else if(!cicompare(descriptor, "printtostdout")){
 			printtostdout = (int)atoi(strtok(NULL, delims));
 			continue;
 		}
-		if(!cicompare(descriptor, "keepcheckpoints")){
+		else if(!cicompare(descriptor, "keepcheckpoints")){
 			keepcheckpoint = (int)atoi(strtok(NULL, delims));
 			continue;
 		}
-		if(!cicompare(descriptor, "checkpointformat")){
+		else if(!cicompare(descriptor, "checkpointformat")){
 			sprintf(checkpoint_format, "%s", strtok(NULL, delims));
 			continue;
 		}
-		if(!cicompare(descriptor, "seed")){
+		else if(!cicompare(descriptor, "seed")){
 			seed = atof(strtok(NULL, " \t\n"));
 			continue;
 		}
-		if(!cicompare(descriptor, "outputtrajectory")){
+		else if(!cicompare(descriptor, "outputtrajectory")){
 			sprintf(trajFileName, "%s", strtok(NULL, delims));
 			continue;
 		}
@@ -789,6 +786,11 @@ void ReadInput(char* input_filename){
 		       "or \"off\"), defaulting to \"off\"\n", shake_preference);
 	}
 
+	if (TrjFreq == -1){ //this means that no trajectory frequency was given
+	   TrjFreq = StepAvg;
+	   printf("option trajfrequencyTiming not specified.\n"
+	          "defaulting to outputTiming value of %d.\n", StepAvg);
+	}
 
 	if(printtostdout){
 		printout = &print_to_stdout;
@@ -3056,7 +3058,7 @@ void GenExcl_minimal_new(){
 	}
 	else{
 		NBBuild_Kernel = &nbbuild_exclbitvec;
-	}
+    }
 
 	return;
 }

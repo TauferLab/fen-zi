@@ -29,6 +29,10 @@ void CallCellBuild(){
 	cudaMemset(num_nonbond, 0, NumCells.w * sizeof(int));
 #endif
 
+#ifdef REPRO
+    printf("Calling CellBuild\n");
+#endif
+
 	CellBuild<<<DynadimGrid, DynadimBlock>>>(r4d,
 	                                         roldd,
 	                                         cell_nonbond,
@@ -133,6 +137,11 @@ void Check_Static_Parameters(char success){
 	free(num_nonbond_host);
 
 	CallCellBuild();
+
+#ifdef REPRO
+    printf("Calling CheckNonBondNum\n");
+#endif
+
 	CheckNonbondNum<<<DynadimGrid, DynadimBlock>>>(r4d,
 	                                               nblistd,
 	                                               cell_nonbond,
@@ -312,6 +321,10 @@ void BuildNBGPU(){
 	cpu1 = clock();
 #endif
 
+#ifdef REPRO
+    printf("Calling NBBuild_Kernel\n");
+#endif
+
 	NBBuild_Kernel<<<NBBuild_dimGrid, NBBuild_dimBlock>>>(r4d,
 	                                                      roldd,
 	                                                      nblistd,
@@ -327,6 +340,8 @@ void BuildNBGPU(){
 	                                                    , debug_nblistd
 #endif
 		                                                                 );
+
+
 
 #ifdef PROFILING
 	cudaThreadSynchronize();

@@ -1,0 +1,64 @@
+# system: DMPC 4x4: 187.2A X 187.2A X 76.0A, 273,936 atoms 
+# 226,784 bonds, 306,352 angles, 360,576 diheds
+46,863 explicit water molecules 
+#
+# blank lines and lines starting with '#' are comments...
+# the list of parameters is unordered and the descriptors are case insensitive
+
+# descriptor  		 value
+coordinates 		 dmpc_large_min250steps.crd
+structure		 dmpc_large_min250steps.psf
+parameters		 par_all27_prot_lipid.prm
+# topology 		 par_all27_prot_lipid.rtf	
+
+# MD setting
+seed			2345
+temperature		298
+thermostat		5.0
+tempresetTiming 	20000
+
+# timestep is defined in pico seconds   
+timestep      0.001
+
+# dynamics 
+startstep		0
+dynasteps		10000
+outputTiming		100000
+trajfrequencyTiming     100000
+checkpointTiming 	100000
+
+# cutoffs
+cuton			7
+cutoff			8
+pairlistdist            9.5
+gpublocksize		128
+
+# dimensions of the cell, currently only cubic cells are supported..
+CellBasisVector1                187.2 0.0 0.0
+cellBasisVector2                0.0 187.2 0.0
+cellBasisVector3                0.0 0.0 76.0
+
+# full electrostatics
+PMEGridSizeX   128 
+PMEGridSizeY   128
+PMEGridSizeZ   64
+
+# constrain hydrogen bonds(on|off) *and* tolerance(1e-6)
+# shake on (comment hfac) or off (uncomment hfac)
+# hfac 	   2
+shake		on 1e-10
+KAPPa   	0.32
+
+#printlevel 0-no printing, 1-output only energy, 2-output energy and trajectory
+printlevel  	 	 0
+#output energies to file (0) or stdout (1)
+printtostdout	    	 1
+#keep checkpoints in folder (0) or overwrite previous checkpoints (1)
+keepcheckpoints	     	 1
+#checkpoint format binary(b) or ascii(a)
+checkpointformat      binary
+
+# files 
+outputname		dmpc_large
+outputtrajectory 	dmpc_large
+restartfilename        	dmpc_large.rst

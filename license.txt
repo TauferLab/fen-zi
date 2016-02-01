@@ -107,15 +107,10 @@ Delaware."
 Any published work which utilizes FEN ZI shall include at least one of
 the following references:
 
-"M. Taufer, N. Ganesan, and S. Patel: GPU enabled Macromolecular
-Simulation: Challenges and Opportunities. IEEE Computing in Science
-and Engineering (CiSE), 15(1): 56 - 64, 2013."
-
 "N. Ganesan, B.A. Bauer, S. Patel, and M. Taufer: Structural, Dynamic,
 and Electrostatic Properties of Fully Hydrated DMPC Bilayers from
 Molecular Dynamics Simulations Accelerated with Graphical Processing
-Units (GPUs). Journal of Computational Chemistry, 32(14): 2958 – 2973,
-2012."
+Units (GPUs). Journal of Computational Chemistry, 2011. (In Press)"
 
 "B.A. Bauer, J.E. Davis, M. Taufer, and S. Patel: Molecular Dynamics
 Simulations of Aqueous Ions at the Liquid-Vapor Interface Accelerated
