@@ -1,6 +1,9 @@
 Changes Made for Reproducibility:
+
 1. Non-bond neighbor list is sorted prior to each call of the nonbondforce kernel.
+
 2. Energies are written to file at each time step at full precision, as opposed to the truncated precision that is the default. 
+
 3. A Python script is included in the dmpc_small test directory for visualizing the difference between two runs.
 
 FEN ZI User Manual Authors: Narayan Ganesan, Sandeep Patel, and Michela Taufer
