@@ -1,10 +1,10 @@
-Changes Made for Reproducibility:
+Changes Made for Reproducibility Analysis:
 
 1. Non-bond neighbor list is sorted prior to each call of the nonbondforce kernel.
 
 2. Energies are written to file at each time step at full precision, as opposed to the truncated precision that is the default. 
 
-3. A Python script is included in the dmpc_small test directory for visualizing the difference between two runs.
+3. A Python script is included in the scripts directory for visualizing the difference between two runs. To use, first generate two energy totals output (.out) files by running FEN ZI. Then run the script with the paths to the output files as the first two arguments and the path you would like to save the resulting plot to as the third argument. The resulting plot is a heatmap of differences between two runs of FEN ZI, where each cell in the heatmap is shaded on a log scale in proportion to the magnitude of the difference. 
 
 FEN ZI User Manual Authors: Narayan Ganesan, Sandeep Patel, and Michela Taufer
 

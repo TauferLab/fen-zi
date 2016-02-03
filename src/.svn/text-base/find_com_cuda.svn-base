@@ -1,6 +1,0 @@
-#! /bin/bash
-
-source $CONFIG_DIR/fenzi_conf_lib
-
-find_binary nvcc
-
